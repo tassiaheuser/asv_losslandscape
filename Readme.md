@@ -8,4 +8,5 @@ Supervisor: Razieh Khamsehashari, TU Berlin
 The code base is split into two repositories
 - loss-landscape: modified based on [loss-landscape](https://github.com/tomgoldstein/loss-landscape), used to generate surface files and surface plots for trained neural networks
 
-- voxceleb: modified based on [voxceleb_trainer](https://github.com/clovaai/voxceleb_trainer), used the train and evaluate the speaker verification neural networks
+- voxceleb: modified based on [voxceleb_trainer](https://github.com/clovaai/voxceleb_trainer), used to train and evaluate the speaker verification neural networks
+
