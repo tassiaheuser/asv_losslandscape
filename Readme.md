@@ -3,8 +3,9 @@ This is the code for the master thesis
 by Tassia Heuser
 First Examiner: Prof. Dr. Sebastian Möller, TU Berlin
 Second Examiner: Prof. Dr. Axel Küpper, TU Berlin
-Supervisor: Razieh Khamsehashari, TU Berli
+Supervisor: Razieh Khamsehashari, TU Berlin
 
 The code base is split into two repositories
-- loss-landscape : used to generate surface files and surface plots for trained neural networks
-- voxceleb       : used the train and evaluate the speaker verification neural networks
+- loss-landscape: modified based on [loss-landscape](https://github.com/tomgoldstein/loss-landscape), used to generate surface files and surface plots for trained neural networks
+
+- voxceleb: modified based on [voxceleb_trainer](https://github.com/clovaai/voxceleb_trainer), used the train and evaluate the speaker verification neural networks
