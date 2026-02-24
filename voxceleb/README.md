@@ -47,7 +47,7 @@ To download the voxceleb dataset and the pretrained ResNetSE34V2 and ResNetSE34L
 
 ### Citation
 
-Please cite [1] if you make use of Chungs code. Please see [here](References.md) for the full list of methods used in this trainer.
+Please cite [1] if you make use of Chungs code. 
 
 [1] _In defence of metric learning for speaker recognition_
 ```
@@ -101,3 +101,4 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
+
