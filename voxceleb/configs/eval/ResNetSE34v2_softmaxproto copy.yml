@@ -1,0 +1,19 @@
+model: ResNetSE34V2
+log_input: True
+encoder_type: ASP
+trainfunc: softmaxproto
+save_path: exps/eval/ResNetSE34Lv2_softmaxproto
+initial_model: /mnt/ssd2/Tassi/TassiMA/Voxceleb_original/models/weights/ResNetSE34V2/baseline_v2_smproto.model
+nPerSpeaker: 2
+batch_size: 400
+n_mels: 64
+
+wandb: False
+max_frames: 400
+nDataLoaderThread: 12
+# train_list: /mnt/Games/Tassia_Daten/SpeakerDataVox1.hdf5
+
+seed: 0
+torch_seed: 0
+
+eval: True

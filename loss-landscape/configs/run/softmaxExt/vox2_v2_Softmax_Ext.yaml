@@ -1,0 +1,32 @@
+cuda: True
+dataset: voxceleb
+model: resnetse34v2
+batch_size: 1200 #1200/55=7% #7.5% # 128/75 -> 6.3% # 300/35
+threads: 6
+x: '-1.0:1.0:21'
+y: '-1.0:1.0:21'
+model_file: /mnt/ssd2/Tassi/TassiMA/loss-landscape/voxceleb/trained_net/weights_om/ResNetSE34Lv2_softmax/ResNetSE34Lv2_Softmax_20.model
+dir_type: weights 
+xnorm: filter
+xignore: biasbn
+ynorm: filter
+yignore: biasbn
+plot: True
+# train_list: /mnt/ssd2/Tassi/TassiMA/loss-landscape/vc-subsets/random_subset_1.txt
+train_list: /mnt/ssd2/Tassi/TassiMA/Voxceleb_data/SpeakerDataVox2.hdf5
+# train_list: /mnt/Games/Tassia_Daten/SpeakerDataVox1.hdf5
+iter_stop: 55
+out_dir: /mnt/ssd2/Tassi/TassiMA/loss-landscape/Output/vox2_v2_softmax/12-06T06-19-03
+# voxceleb parameters
+trainfunc: softmax
+loss_name: softmax
+nPerSpeaker: 1
+seed: 0
+use_wandb: True
+wandb_project: lola-vc2-v2-sm-eval
+wandb_random_coords: 10
+n_mels: 64
+encoder_type: ASP
+
+extendby: 5
+surf_file: /mnt/ssd2/Tassi/TassiMA/loss-landscape/Output/vox2_v2_softmax/12-06T06-19-03/surface_[-1.0,1.0,21]x[-1.0,1.0,21].h5

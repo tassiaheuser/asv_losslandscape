@@ -1,0 +1,38 @@
+cuda: True
+dataset: voxceleb
+model: res2net8s
+batch_size: 1200
+threads: 8
+# x: '-0.95:1.05:21'
+# y: '-0.95:1.05:21'
+x: '-0.3:0.3:7'
+y: '-0.3:0.3:7'
+# x: '-0.3:0.3:7'
+# y: '-0.3:0.3:7'
+# model_file: /mnt/ssd2/Tassi/TassiMA/loss-landscape/voxceleb/trained_net/model000000129_converted.model
+model_file: /mnt/ssd2/Tassi/TassiMA/loss-landscape/voxceleb/trained_net/weights_om/Res2Net8s/Vox1-O/model000000120.model
+dir_type: weights 
+xnorm: filter
+xignore: biasbn
+ynorm: filter
+yignore: biasbn
+plot: True
+# train_list: /mnt/ssd2/Tassi/TassiMA/loss-landscape/vc-subsets/random_subset_1.txt
+train_list: /mnt/ssd2/Tassi/TassiMA/Voxceleb_data/SpeakerDataVox2.hdf5
+# train_list: /mnt/Games/Tassia_Daten/SpeakerDataVox1.hdf5
+#test_list: /mnt/ssd2/Tassi/TassiMA/loss-landscape/veri_test2.txt
+# train_list: /mnt/ssd2/Tassi/TassiMA/loss-landscape/veri_test2.txt
+iter_stop: 55
+out_dir: /mnt/ssd2/Tassi/TassiMA/loss-landscape/Output/res2net8s_train
+# voxceleb parameters
+trainfunc: aamsoftmax
+nPerSpeaker: 1
+n_mels: 80
+nOut: 256
+seed: 0
+use_wandb: False
+wandb_project: res2net8s
+wandb_random_coords: 10
+encoder_type: SAP
+log: True
+#device: cpu
