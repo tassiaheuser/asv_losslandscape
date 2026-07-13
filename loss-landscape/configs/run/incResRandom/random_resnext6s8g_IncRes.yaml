@@ -1,0 +1,36 @@
+cuda: True
+dataset: voxceleb
+model: res2next6s8g
+batch_size: 300
+threads: 6
+x: '-1.0:1.0:21'
+y: '-1.0:1.0:21'
+#x: '-0.00001:0.00001:21'
+#y: '-0.00001:0.00001:21'
+#model_file: voxceleb/trained_net/weights_om/Res2NeXt6s8g/Vox1-O/model000000130.model
+dir_type: weights
+xnorm: filter
+xignore: biasbn
+ynorm: filter
+yignore: biasbn
+plot: True
+train_list: data/SpeakerDataVox2.hdf5
+iter_stop: 300
+out_dir: Output/resnext6s8g_Random_train
+
+# voxceleb parameters
+trainfunc: aamsoftmax
+nPerSpeaker: 1
+n_mels: 80
+nOut: 256
+seed: 0
+use_wandb: True
+wandb_project: res2net6s8g_random
+wandb_random_coords: 10
+encoder_type: SAP
+reduction: 12
+log: True
+
+increase_res: 1
+surf_file: Output/resnext6s8g_Random/08-06T17-41-22/surface_[-1.0,1.0,21]x[-1.0,1.0,21].h5
+eval_mode: True

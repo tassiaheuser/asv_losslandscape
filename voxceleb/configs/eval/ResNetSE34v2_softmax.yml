@@ -1,0 +1,19 @@
+model: ResNetSE34V2
+log_input: True
+encoder_type: ASP
+trainfunc: softmax
+save_path: exps/eval/ResNetSE34Lv2_softmax
+initial_model: exps/ResNetSE34Lv2_Softmax/model/model000000020.model
+nPerSpeaker: 1
+batch_size: 400
+n_mels: 64
+
+wandb: False
+max_frames: 400
+nDataLoaderThread: 12
+# train_list: data/SpeakerDataVox1.hdf5
+
+seed: 0
+torch_seed: 0
+
+eval: True

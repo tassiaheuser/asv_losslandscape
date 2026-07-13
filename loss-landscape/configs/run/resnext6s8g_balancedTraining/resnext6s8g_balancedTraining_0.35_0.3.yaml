@@ -1,0 +1,54 @@
+cuda: True
+log_input: True
+dataset: voxceleb
+model: Res2NeXt6s8g
+encoder_type: SAP
+nOut: 512
+# batch_size: 128 # 200 to much
+# x: '-1.0:1.0:21'
+# y: '-1.0:1.0:21'
+x: '-0.35:0.35:8'
+# y: '-0.35:0.35:8'
+# x: '-0.3:0.3:7'
+y: '-0.3:0.3:7'
+# x: '-0.00001:0.00001:21'
+# y: '-0.00001:0.00001:21'
+model_file: experiments/Res2NeXt6s8g_training_balanced/model/model000000132.model
+dir_type: weights
+xnorm: filter
+xignore: biasbn
+ynorm: filter
+yignore: biasbn
+plot: True
+max_frames: 500 #300->4.1 # 500->
+eval_frames: 400
+out_dir: Output/resnext6s8g_balancedTraining
+threads: 12
+hdf5: True
+train_list: data/SpeakerDataVox2.hdf5
+iter_stop: 150
+# voxceleb parameters
+trainfunc: aamsoftmax
+max_epoch: 135
+
+max_seg_per_spk: 500
+nPerSpeaker: 1
+n_mels: 80
+lr_step: epoch
+test_interval: 1
+seed: 0
+torch_seed: 0
+
+use_wandb: False
+wandb_project: lol_trained_6s8g
+wandb_random_coords: 441
+margin: 0.2
+
+# balanced: 0.9
+
+scheduler: constant
+lr_decay: 0.6
+lr: 0.00005
+# load_optimizer: experiments/Res2NeXt6s8g_training_balanced/model/model000000126_states/optimizer.pth
+
+# split 126 and 119 and 87
