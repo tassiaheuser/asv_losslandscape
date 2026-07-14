@@ -5,7 +5,7 @@ numpy>=1.26
 scikit-learn>=1.4
 scipy>=1.12
 seaborn>=0.13
-PyYAML>=6.0
+PyYAML>=6.0.3
 
 # PyTorch stack
 torch>=2.3
