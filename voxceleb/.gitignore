@@ -1,13 +1,22 @@
 # Other files
 *.model
+*.pt
+*.pth
+*.ckpt
+*.h5
+*.hdf5
+*.npy
+*.npz
+events.out.tfevents*
 *.wav
 *.mp4
 *.pcm
-*.yaml
 data/*
-!data/test_list.txt
-!data/train_list.txt
+!data/README.md
 exps/
+models/weights/*
+!models/weights/README.md
+slurm_logs/
 core.*
 
 # NSML related
@@ -101,6 +110,7 @@ celerybeat-schedule
 # Environments
 .env
 .venv
+.venv/
 env/
 venv/
 ENV/
@@ -129,9 +139,7 @@ wandb/
 
 .vscode/
 .wandb/
-data/
 lists/
 exps/
 scripts/
-tSNE/
 tSNE/

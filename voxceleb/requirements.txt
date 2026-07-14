@@ -1,9 +1,17 @@
-torch>=1.7.0
-torchaudio>=0.7.0
-asteroid_filterbanks==0.4.0
-numpy
-scipy
-scikit-learn
-tqdm
-pyyaml
-soundfile==0.10.3.post1
+# Core training stack
+torch>=2.3
+torchaudio>=2.3
+torchvision>=0.18
+
+# Numerical/audio utilities
+asteroid-filterbanks>=0.4
+h5py>=3.10
+numpy>=1.26
+scikit-learn>=1.4
+scipy>=1.18.0
+soundfile>=0.12
+tqdm>=4.66
+PyYAML>=6.0
+
+# Optional experiment logging
+wandb>=0.16
