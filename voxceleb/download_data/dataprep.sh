@@ -1,23 +1,23 @@
 #!/bin/bash --login
 #SBATCH --job-name=dataprep_extract
-#SBATCH --output=/home/users/t/tas.heu/masterthesis/logs/Voxceleb/dataprep_%j_256G.log
-#SBATCH --error=/home/users/t/tas.heu/masterthesis/logs/Voxceleb/dataprep_%j_error.log
+#SBATCH --output=slurm_logs/dataprep_%j_256G.log
+#SBATCH --error=slurm_logs/dataprep_%j_error.log
 #SBATCH --time=01:00:00
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mail-type=begin,end,fail
-#SBATCH --mail-user=heuser.tassia@gmail.com
+#SBATCH --mail-type=fail
 #SBATCH --partition=standard
 #SBATCH --mem=256G
-#~/masterthesis/Voxceleb_original/penv/bin/activate
-
 echo "Starting job at: $(date)"
 echo "Running on host: $(hostname)"
 echo "Job ID: $SLURM_JOB_ID at node: $SLURMD_NODENAME"
 
-module load python/3.9.19
+if command -v module >/dev/null 2>&1; then
+    module load "${VOXCELEB_PYTHON_MODULE:-python/3.9.19}" || true
+fi
 
-pip install tqdm
-pip install -r /home/users/t/tas.heu/masterthesis/Voxceleb_original/requirements.txt
+cd "${SLURM_SUBMIT_DIR:-$(dirname "$0")/..}"
 
-python3 ./dataprep.py  --save_path data --extract
+python3 -m pip install -r requirements.txt
+
+python3 download_data/dataprep.py --save_path data --extract

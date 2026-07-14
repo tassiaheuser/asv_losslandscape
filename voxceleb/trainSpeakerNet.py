@@ -14,7 +14,7 @@ from SpeakerNet import *
 from DatasetLoader import *
 import torch.distributed as dist
 import torch.multiprocessing as mp
-import pickle 
+import pickle
 from sklearn.metrics import roc_auc_score
 import numpy as np
 
@@ -54,7 +54,7 @@ def create_parser():
     parser.add_argument('--augment',        action='store_true',        help='Augment input')
     parser.add_argument('--seed',           type=int,   default=10,     help='Seed for the random number generator')
     parser.add_argument('--torch_seed',     type=int,   default=None,   help='Seed for the layer initalization. If none is given --seed is used')
-    parser.add_argument('--hdf5',           action='store_true',        help='Read training files from hdf5')   
+    parser.add_argument('--hdf5',           action='store_true',        help='Read training files from hdf5')
 
     ## Training details
     parser.add_argument('--test_interval',  type=int,   default=10,     help='Test and save every [test_interval] epochs')
@@ -93,10 +93,10 @@ def create_parser():
 
 
     ## Training and test data
-    parser.add_argument('--train_list',     type=str,   default="/mnt/Games/Tassia_Daten/vox2/train_list.txt",  help='Train list')
-    parser.add_argument('--test_list',      type=str,   default="/mnt/Games/Tassia_Daten/vox2/test_list.txt",   help='Evaluation list')
-    parser.add_argument('--train_path',     type=str,   default="/mnt/Games/Tassia_Daten/vox2/voxceleb2", help='Absolute path to the train set')
-    parser.add_argument('--test_path',      type=str,   default="/mnt/Games/Tassia_Daten/vox1/voxceleb1", help='Absolute path to the test set')
+    parser.add_argument('--train_list',     type=str,   default="data/vox2/train_list.txt",  help='Train list')
+    parser.add_argument('--test_list',      type=str,   default="data/vox2/test_list.txt",   help='Evaluation list')
+    parser.add_argument('--train_path',     type=str,   default="data/vox2/voxceleb2", help='Absolute path to the train set')
+    parser.add_argument('--test_path',      type=str,   default="data/vox1/voxceleb1", help='Absolute path to the test set')
     parser.add_argument('--musan_path',     type=str,   default="data/musan_split", help='Absolute path to the test set')
     parser.add_argument('--rir_path',       type=str,   default="data/RIRS_NOISES/simulated_rirs", help='Absolute path to the test set')
     parser.add_argument('--balanced',       type=float,   default=None,     help='generate a more balanced dataset, 0.0 to 1.0, None for no balancing, 1.0 for perfect balance')
@@ -121,7 +121,7 @@ def create_parser():
     parser.add_argument('--mixedprec',      dest='mixedprec',   action='store_true', help='Enable mixed precision training')
     parser.add_argument('--freeze', default=False, action='store_true', help='Freeze the model')
     parser.add_argument('--cpu', default=False, action='store_true', help='Run on CPU')
-    
+
     return parser
 
 
@@ -248,13 +248,13 @@ def main_worker(gpu, ngpus_per_node, args):
 
         print('Total parameters: ',pytorch_total_params)
         print('Test list',args.test_list)
-        
+
         sc, lab, _, feat = trainer.evaluateFromList(**vars(args))
-        
+
         if args.gpu == 0:
-            
+
             result = tuneThresholdfromScore(sc, lab, [1, 0.1])
-            
+
             fnrs, fprs, thresholds = ComputeErrorRates(sc, lab)
             mindcf, threshold = ComputeMinDcf(fnrs, fprs, thresholds, args.dcf_p_target, args.dcf_c_miss, args.dcf_c_fa)
 
@@ -272,7 +272,7 @@ def main_worker(gpu, ngpus_per_node, args):
     if args.eval_train:
         # if args.return_full_pred:
         #     loss, traineer,sc,lab  = trainer.eval_train_network(train_loader,verbose=(args.gpu == 0),iter_stop=args.iter_stop,return_full_pred=args.return_full_pred)
-            
+
         #     roc_auc_macro = roc_auc_score(np.array(lab), np.array(sc), multi_class='ovr', average='macro')
         #     roc_auc_micro = roc_auc_score(np.array(lab), np.array(sc), multi_class='ovr', average='micro')
         #     if args.gpu == 0:
@@ -280,7 +280,7 @@ def main_worker(gpu, ngpus_per_node, args):
         #         scorefile.write("Train epoch_loss {:2.4f},Train epoch_acc {:2.5f}, Train AUC Macro {:2.5f}, Train AUC Micro {:2.5f}\n".format(loss,traineer, roc_auc_macro, roc_auc_micro))
         #         scorefile.flush()
         #         scorefile.close()
-        
+
         args.return_full_pred = False
         s = SpeakerNet(**vars(args))
         if args.cpu:
@@ -339,14 +339,14 @@ def main_worker(gpu, ngpus_per_node, args):
             project_name = args.model
         wandb_dir = "./.wandb"
         if args.wandb_resume:
-            wandb_run = wandb.init(project=project_name, 
+            wandb_run = wandb.init(project=project_name,
                 config=args,
                 resume="must",
                 id=args.wandb_resume,
                 dir=wandb_dir,
                 )
         else:
-            wandb_run = wandb.init(project=project_name, 
+            wandb_run = wandb.init(project=project_name,
                 config=args,
                 dir=wandb_dir,
                 )
@@ -373,21 +373,21 @@ def main_worker(gpu, ngpus_per_node, args):
         if it % args.test_interval == 0:
 
             sc, lab, _, feat = trainer.evaluateFromList(**vars(args))
-            
+
             # # new
             # scorefile.write("Epoch {:d}, MAE {:2.4f}, MSE {:2.5f}\n".format(it, sc[0], sc[1], sc[2] ))
             # if args.wandb:
             #  wandb.log({"test_acc": traineer, "test_mae": it, "test_mae": loss, }) # "lr": max(clr),
 
             if args.gpu == 0:
-                
+
                 result = tuneThresholdfromScore(sc, lab, [1, 0.1])
 
                 fnrs, fprs, thresholds = ComputeErrorRates(sc, lab)
                 mindcf, threshold = ComputeMinDcf(fnrs, fprs, thresholds, args.dcf_p_target, args.dcf_c_miss, args.dcf_c_fa)
 
                 eers.append(result[1])
-                
+
                 # VEER: Validation Equal Error Rate
                 print('---------------------------------------------\n',
                     time.strftime("%Y-%m-%d %H:%M:%S"), "Epoch {:d}, VEER {:2.4f}, MinDCF {:2.5f}".format(it, result[1], mindcf),
