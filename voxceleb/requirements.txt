@@ -1,7 +1,7 @@
 # Core training stack
 torch>=2.3
 torchaudio>=2.3
-torchvision>=0.18
+torchvision>=0.28.0
 
 # Numerical/audio utilities
 asteroid-filterbanks>=0.4
