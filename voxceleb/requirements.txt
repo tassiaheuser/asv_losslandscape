@@ -11,7 +11,7 @@ scikit-learn>=1.4
 scipy>=1.12
 soundfile>=0.12
 tqdm>=4.66
-PyYAML>=6.0
+PyYAML>=6.0.3
 
 # Optional experiment logging
 wandb>=0.16
