@@ -1,0 +1,30 @@
+# Copy to a local, ignored checkpoint manifest and replace null fields after verifying provenance.
+checkpoints:
+  - id: resnetse34v2_softmaxproto_baseline
+    architecture: ResNetSE34V2
+    file: voxceleb/models/weights/ResNetSE34V2/baseline_v2_smproto.model
+    sha256: null
+    source_url: null
+    license_or_terms: null
+    redistribution_status: pending-review
+    configs:
+      - voxceleb/configs/ResNetSE34v2_AAMsoftmax.yml
+      - voxceleb/configs/ResNetSE34v2_softmax.yml
+  - id: res2next6s8g_vox1_o
+    architecture: Res2NeXt6s8g
+    file: loss-landscape/voxceleb/trained_net/weights_om/Res2NeXt6s8g/Vox1-O/model000000130.model
+    sha256: null
+    source_url: null
+    license_or_terms: null
+    redistribution_status: pending-review
+    configs:
+      - loss-landscape/configs/run/resnext6s8g/resnext6s8g_train.yaml
+  - id: res2net8s_vox1_o
+    architecture: Res2Net8s
+    file: loss-landscape/voxceleb/trained_net/weights_om/Res2Net8s/Vox1-O/model000000120.model
+    sha256: null
+    source_url: null
+    license_or_terms: null
+    redistribution_status: pending-review
+    configs:
+      - loss-landscape/configs/run/res2net8s_train/
