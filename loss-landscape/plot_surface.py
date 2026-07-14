@@ -4,11 +4,6 @@
     >>  python plot_surface.py --x=-1:1:101 --y=-1:1:101 --model resnet56 --cuda
 """
 
-#TODO
-# print output dir
-# load full_config, don't load timestamp
-# value explostion try in train mode: https://arxiv.org/html/2412.10146v1
-
 import argparse
 import copy
 import h5py
@@ -29,7 +24,7 @@ import plot_2D
 import plot_1D
 import model_loader_toplevel
 import scheduler
-import voxceleb.loss.amsoftmax as vc_amsoftmax 
+import voxceleb.loss.amsoftmax as vc_amsoftmax
 import voxceleb.loss.angleproto as vc_angleproto
 import voxceleb.loss.softmaxproto as vc_softmaxproto
 from utils import load_config_from_yaml, write_config_to_yaml
@@ -65,7 +60,7 @@ def name_surface_file(args, dir_file):
     # use args.dir_file as the perfix
     surf_file = "surface"
 
-    
+
     file1, file2, file3 = args.model_file, args.model_file2, args.model_file3
 
     # name for xdirection
@@ -118,7 +113,7 @@ def setup_surface_file(args, surf_file, dir_file):
     Returns:
         str: The path to the surface file.
     """
-    
+
     # skip if the direction file already exists
     if os.path.exists(surf_file):
         f = h5py.File(surf_file, 'r')
@@ -214,7 +209,7 @@ def crunch(surf_file, net, w, s, d, dataloader, loss_key, acc_key, comm, rank, a
             print("wandb logging for random coords: ", use_wandb_coords)
         elif args.wandb_coords is not None:
             use_wandb_coords = [tuple(x) for x in np.array(args.wandb_coords.split(":")).reshape(-1,2).astype(float)]
-    
+
     for count, ind in enumerate(inds):
         #
         # Get the coordinates of the loss value being calculated
@@ -227,7 +222,7 @@ def crunch(surf_file, net, w, s, d, dataloader, loss_key, acc_key, comm, rank, a
             elif args.wandb_coords is not None:
                 use_wandb = coord_tuple in use_wandb_coords
             else:
-                use_wandb = True 
+                use_wandb = True
             if use_wandb: print("logging to wandb for coord: ", coord_tuple)
         else:
             use_wandb = False
@@ -319,7 +314,7 @@ if __name__ == '__main__':
     parser.add_argument('--extendby', default=None, type=int,  help='You can extend a given surface file by extending the covered area with the given amount of points. The distance between points is infered from the given surface file')
     parser.add_argument('--increase_res', default=None, type=int,  help='You can extend the resulution of a given surface file by adding points between the already calculated points. If you want to add a point between each other point, set this to 1. Set it to 2 to add two points between each other point and so on.')
 
-    
+
 
     # plot parameters
     parser.add_argument('--proj_file', default='', type=str, help='the .h5 file contains projected optimization trajectory.')
@@ -342,25 +337,25 @@ if __name__ == '__main__':
     parser.add_argument('--wandb_random_coords', default=None, type=int,        help='log the loss and acc for the given amount of random coordinates to wandb. E.g. if set to 3, three randomly chosen coordinates will be logged to wandb')
 
     parser.add_argument('--iter_stop', default=None, type=int, help='stop after this number of iterations in the dataloader')
-    parser.add_argument('--debug', action='store_true',        help='only debug don not save the results')
+    parser.add_argument('--debug', action='store_true',        help='run in debug mode without saving results')
 
     # Voxceleb Settings
     voxceleb = parser.add_argument_group('Voxceleb Arguments')
     voxceleb.add_argument('--trainfunc',      type=str,   default="angleproto",     help='Loss function')
-    voxceleb.add_argument('--augment',        type=bool,  default=False,  help='Augment input')
+    voxceleb.add_argument('--augment',        action='store_true',  help='augment input audio')
     voxceleb.add_argument('--musan_path',     type=str,   default="data/musan_split", help='Absolute path to the test set')
     voxceleb.add_argument('--rir_path',       type=str,   default="data/RIRS_NOISES/simulated_rirs", help='Absolute path to the test set')
-    voxceleb.add_argument('--train_list',     type=str,   default="/mnt/Games/Tassia_Daten/vox2/train_list.txt",  help='Train list')
-    voxceleb.add_argument('--test_list',      type=str,   default="/mnt/Games/Tassia_Daten/vox2/test_list.txt",   help='Evaluation list')
-    voxceleb.add_argument('--train_path',     type=str,   default="/mnt/Games/Tassia_Daten/vox2/voxceleb2", help='Absolute path to the train set')
-    voxceleb.add_argument('--test_path',      type=str,   default="/mnt/Games/Tassia_Daten/vox1/voxceleb_test", help='Absolute path to the test set')
+    voxceleb.add_argument('--train_list',     type=str,   default="data/vox2/train_list.txt",  help='Train list')
+    voxceleb.add_argument('--test_list',      type=str,   default="data/vox2/test_list.txt",   help='Evaluation list')
+    voxceleb.add_argument('--train_path',     type=str,   default="data/vox2/voxceleb2", help='Absolute path to the train set')
+    voxceleb.add_argument('--test_path',      type=str,   default="data/vox1/voxceleb_test", help='Absolute path to the test set')
     voxceleb.add_argument('--max_frames',     type=int,   default=200,    help='Input length to the network for training')
-    voxceleb.add_argument('--num_eval',       type=int,   default=10,    help='I dont know what this is. Used in voxecleb test dataloader')
-    voxceleb.add_argument('--eval_frames',    type=int,   default=300,    help='Input length to the network for testing 0 uses the whole files')
-    voxceleb.add_argument('--nPerSpeaker',    type=int,   default=6,        help='... see Voxceleb')
-    voxceleb.add_argument('--max_seg_per_spk',    type=int,   default=500,        help='... see Voxceleb')
-    voxceleb.add_argument('--distributed',    action='store_true',        help='... see Voxceleb')
-    voxceleb.add_argument('--seed',    type=int,   default=10,        help='... see Voxceleb')
+    voxceleb.add_argument('--num_eval',       type=int,   default=10,    help='number of evenly spaced segments sampled per evaluation utterance')
+    voxceleb.add_argument('--eval_frames',    type=int,   default=300,    help='evaluation segment length in frames; 0 uses the complete utterance')
+    voxceleb.add_argument('--nPerSpeaker',    type=int,   default=6,        help='utterances sampled per speaker in each batch item')
+    voxceleb.add_argument('--max_seg_per_spk',    type=int,   default=500,        help='maximum segments sampled from one speaker per epoch')
+    voxceleb.add_argument('--distributed',    action='store_true',        help='enable distributed evaluation')
+    voxceleb.add_argument('--seed',    type=int,   default=10,        help='random seed')
 
     voxceleb.add_argument("--hard_prob",      type=float, default=0.5,    help='Hard negative mining probability, otherwise random, only for some loss functions')
     voxceleb.add_argument("--hard_rank",      type=int,   default=10,     help='Hard negative mining rank in the batch, only for some loss functions')
@@ -385,7 +380,7 @@ if __name__ == '__main__':
     ## Parse YAML
     if args.config is not None:
         load_config_from_yaml(args,parser)
-        
+
     torch.manual_seed(args.seed)
     #--------------------------------------------------------------------------
     # Environment setup
@@ -430,8 +425,8 @@ if __name__ == '__main__':
         #--------------------------------------------------------------------------
         # Setup the direction file and the surface file
         #--------------------------------------------------------------------------
-        # if existing direction/surface file is given, no new direction/surface 
-        # is calculated and the direction/surface in the file is used 
+        # if existing direction/surface file is given, no new direction/surface
+        # is calculated and the direction/surface in the file is used
 
         # add custom directory to output dir
         time_dir = True
@@ -444,12 +439,12 @@ if __name__ == '__main__':
                 extention = ''
             better_out_dir_name = args.timestamp + extention
             args.out_dir = os.path.join(args.out_dir,better_out_dir_name )
-        
+
         if rank == 0:
             if not os.path.exists(args.out_dir):
                 os.makedirs(args.out_dir,exist_ok=True)
         mpi.barrier(comm)
-        
+
         #--------------------------------------------------------------------------
         # Check plotting resolution
         #--------------------------------------------------------------------------
@@ -462,14 +457,14 @@ if __name__ == '__main__':
                 'You specified some arguments for the y axis, but not all'
         except:
             raise Exception('Improper format for x- or y-coordinates. Try something like -1:1:51')
-        
+
         if args.extendby is not None:
             if args.surf_file == "":
                 raise KeyError("a surface file needs to be specified in the arguments to extend it")
             SF = SurfaceFileHandler(args.surf_file)
             if args.dir_file == '' :
                 args.dir_file = SF.getDirFile()
-            
+
             if rank == 0:
                 new_surf = SF.extend_surface_file(dest=args.out_dir, steps=args.extendby)
                 args.surf_file = new_surf
@@ -485,7 +480,7 @@ if __name__ == '__main__':
             SF = SurfaceFileHandler(args.surf_file)
             if args.dir_file == '' :
                 args.dir_file = SF.getDirFile()
-            
+
             if rank == 0:
                 new_surf = SF.increase_resolution(dest=args.out_dir, steps=args.increase_res)
                 args.surf_file = new_surf
@@ -502,10 +497,10 @@ if __name__ == '__main__':
         # print out dir
         print("Output directory: ", args.out_dir)
         dir_file = net_plotter.name_direction_file(args) # name the direction file - if one was given, it will be used
-        surf_file = name_surface_file(args, dir_file)    # create name for the surface file - if one was given, it will be used 
+        surf_file = name_surface_file(args, dir_file)    # create name for the surface file - if one was given, it will be used
 
         if rank == 0:
-            
+
             setup_surface_file(args, surf_file, dir_file)
 
             net_plotter.setup_direction(args, dir_file, net)
@@ -519,11 +514,11 @@ if __name__ == '__main__':
                 else:
                     project_name = args.model_file[:args.model_file.rfind(".")]
                 wandb_dir = "./.wandb"
-                wandb_run = wandb.init(project=project_name, 
+                wandb_run = wandb.init(project=project_name,
                     config=vars(args),
                     dir=wandb_dir,
                     )
-                
+
                 # if args.wandb_coords is None and args.wandb_random_coords is None:
                 #     print("No coordinates specified for wandb logging, the default [0,0] will be used")
                 #     args.wandb_coords = "0:0"
@@ -571,12 +566,12 @@ if __name__ == '__main__':
         # check if a surface file was given
         if args.surf_file == "":
             raise KeyError("a surface file needs to be specified in the arguments to plot it ( or else compute the surface file and do not set only-plot)")
-        
+
         if os.path.exists(args.surf_file):
             surf_file = args.surf_file
         else:
             raise FileNotFoundError("The specified surface file does not exist")
-        
+
     #--------------------------------------------------------------------------
     # Plot figures
     #--------------------------------------------------------------------------
@@ -596,7 +591,7 @@ if __name__ == '__main__':
 
 
 ''''
-Der code in evaluation.evl_loss() muss auf Voxceleb angepasst werden. 
+Der code in evaluation.evl_loss() muss auf Voxceleb angepasst werden.
 Konkret muss der richtige Loss berechnet werden. Wenn man sich den Training Dataloader anschaut von Voxceleb, dann
 sieht es so aus, als ob die Daten in der Form (audio, label) kommen. Der Loss wird dann mit den Labels berechnet.
 Auch läd der Traininloader im moment glaube ich alle test daten auf einmal (shape 128x10x400000) oder was auch immer di 128 sind

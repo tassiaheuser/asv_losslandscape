@@ -1,8 +1,6 @@
 """
-    Plot the optimization path in the space spanned by principle directions.
+    Plot the optimization path in the space spanned by principal directions.
 """
-
-# Save random init !!
 
 import numpy as np
 import torch
@@ -28,17 +26,17 @@ if __name__ == '__main__':
         help="""direction type: weights (all weights except bias and BN paras) |
                                 states (include BN.running_mean/var)""")
     parser.add_argument('--ignore', type=str, default='', help='ignore bias and BN paras: biasbn (no bias or bn)')
-    parser.add_argument('--prefix', type=str, default='model_', help='prefix for the checkpint model')
-    parser.add_argument('--suffix', type=str, default='.t7', help='prefix for the checkpint model')
+    parser.add_argument('--prefix', type=str, default='model_', help='prefix for checkpoint files')
+    parser.add_argument('--suffix', type=str, default='.t7', help='suffix for checkpoint files')
     parser.add_argument('--start_epoch',   default=0, type=int, help='min index of epochs')
     parser.add_argument('--max_epoch', default=300, type=int, help='max number of epochs')
     parser.add_argument('--save_epoch',  default=1, type=int, help='save models every few epochs')
-    parser.add_argument('--dir_file', type=str, default='/mnt/ssd2/Tassi/TassiMA/Voxceleb_original/exps/Res2NeXt6s8g_training_balanced/model/PCA_weights_ignore=biasbn_save_epoch=1_normed/directions_filter_normalized2.h5', help='load the direction file for projection')
+    parser.add_argument('--dir_file', type=str, default=None, help='load the direction file for projection')
 
     # voxceleb args
     voxceleb = parser.add_argument_group('Voxceleb Arguments')
     voxceleb.add_argument('--trainfunc',      type=str,   default="angleproto",     help='Loss function')
-    voxceleb.add_argument('--nPerSpeaker',    type=int,   default=6,        help='... see Voxceleb')
+    voxceleb.add_argument('--nPerSpeaker',    type=int,   default=6,        help='utterances sampled per speaker in each batch item')
     voxceleb.add_argument('--nClasses',       type=int,   default=5994,   help='Number of speakers in the softmax layer, only for softmax-based losses')
     voxceleb.add_argument('--encoder_type',   type=str,   default="SAP",  help='Type of encoder')
     voxceleb.add_argument('--nOut',           type=int,   default=512,    help='Embedding size in the last FC layer')
@@ -46,7 +44,7 @@ if __name__ == '__main__':
     voxceleb.add_argument('--margin',         type=float, default=0.1,    help='Loss margin, only for some loss functions') # 0.2
 
     args = parser.parse_args()
-    
+
     if args.config is not None:
         load_config_from_yaml(args,parser)
 
@@ -55,7 +53,7 @@ if __name__ == '__main__':
     #--------------------------------------------------------------------------
     # last_model_file = args.model_folder + '/' + args.prefix + str(args.max_epoch) + args.suffix
     last_model_file = os.path.join(args.model_folder,"model%09d.model"%args.max_epoch)
-    net = model_loader_toplevel.load(args.dataset, args.model, model_file=last_model_file,kwargs=vars(args)) 
+    net = model_loader_toplevel.load(args.dataset, args.model, model_file=last_model_file,kwargs=vars(args))
     w = net_plotter.get_weights(net)
     s = net.state_dict()
 
@@ -72,7 +70,6 @@ if __name__ == '__main__':
     #--------------------------------------------------------------------------
     # load or create projection directions
     #--------------------------------------------------------------------------
-    args.dir_file = '/mnt/ssd2/Tassi/TassiMA/Voxceleb_original/exps/Res2NeXt6s8g_training_balanced/Traject/normed/directions_filter_normalized2.h5'
     if args.dir_file:
         dir_file = args.dir_file
     else:
