@@ -14,7 +14,7 @@ torchvision>=0.18
 
 # VoxCeleb/audio utilities
 asteroid-filterbanks>=0.4
-soundfile>=0.12
+soundfile>=0.14.0
 
 # Optional runtime integrations used by the scripts
 mpi4py>=3.1
