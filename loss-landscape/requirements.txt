@@ -17,6 +17,6 @@ asteroid-filterbanks>=0.4
 soundfile>=0.12
 
 # Optional runtime integrations used by the scripts
-mpi4py>=3.1
+mpi4py>=4.1.2
 pptree>=3.1
 wandb>=0.16
