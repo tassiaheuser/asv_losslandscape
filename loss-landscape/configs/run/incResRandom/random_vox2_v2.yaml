@@ -5,16 +5,16 @@ batch_size: 3000
 threads: 8
 x: '-1.0:1.0:21'
 y: '-1.0:1.0:21'
-# model_file: /mnt/ssd2/Tassi/TassiMA/loss-landscape/voxceleb/trained_net/baseline_v2_smproto.model
-dir_type: weights 
+# model_file: voxceleb/trained_net/baseline_v2_smproto.model
+dir_type: weights
 xnorm: filter
 xignore: biasbn
 ynorm: filter
 yignore: biasbn
 plot: True
-# train_list: /mnt/ssd2/Tassi/TassiMA/loss-landscape/vc-subsets/random_subset_1.txt
-train_list: /mnt/ssd2/Tassi/TassiMA/Voxceleb_data/SpeakerDataVox2.hdf5
-# train_list: /mnt/Games/Tassia_Daten/SpeakerDataVox1.hdf5
+# train_list: vc-subsets/random_subset_1.txt
+train_list: data/SpeakerDataVox2.hdf5
+# train_list: data/SpeakerDataVox1.hdf5
 iter_stop: 10
 out_dir: Output/vox2_v2_random_train
 # voxceleb parameters
