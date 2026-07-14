@@ -9,7 +9,7 @@ h5py>=3.10
 numpy>=1.26
 scikit-learn>=1.4
 scipy>=1.12
-soundfile>=0.12
+soundfile>=0.14.0
 tqdm>=4.66
 PyYAML>=6.0
 
