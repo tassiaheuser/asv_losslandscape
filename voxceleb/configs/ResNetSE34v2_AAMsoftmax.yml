@@ -3,7 +3,7 @@ log_input: True
 encoder_type: ASP
 trainfunc: aamsoftmax
 save_path: exps/ResNetSE34Lv2_AAMSoftmax
-initial_model: /mnt/ssd2/Tassi/TassiMA/Voxceleb_original/models/weights/ResNetSE34V2/baseline_v2_smproto.model
+initial_model: models/weights/ResNetSE34V2/baseline_v2_smproto.model
 nPerSpeaker: 1
 batch_size: 400
 freeze: True
@@ -14,8 +14,8 @@ wandb_project: train-v2-AAMsoftmax
 
 nDataLoaderThread: 6
 hdf5: True
-train_list: /mnt/ssd2/Tassi/TassiMA/Voxceleb_data/SpeakerDataVox2.hdf5
-# train_list: /mnt/Games/Tassia_Daten/SpeakerDataVox1.hdf5
+train_list: data/SpeakerDataVox2.hdf5
+# train_list: data/SpeakerDataVox1.hdf5
 
 seed: 0
 torch_seed: 0

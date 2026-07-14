@@ -1,2 +1,6 @@
-cd /home/users/t/tas.heu/masterthesis/Voxceleb_original
-/opt/conda/envs/ma/bin/python trainSpeakerNet.py
+#!/bin/bash
+set -euo pipefail
+
+cd "$(dirname "$0")"
+
+"${PYTHON:-python}" trainSpeakerNet.py "$@"

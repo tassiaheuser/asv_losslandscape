@@ -1,14 +1,17 @@
 #!/bin/bash --login
 #SBATCH --job-name=dataprep
-#SBATCH --output=/home/users/t/tas.heu/masterthesis/logs/dataprep/%j_vc2prep.log
-#SBATCH --error=/home/users/t/tas.heu/masterthesis/logs/dataprep/job_error_%j.log
+#SBATCH --output=slurm_logs/%j_vc2prep.log
+#SBATCH --error=slurm_logs/job_error_%j.log
 #SBATCH --partition=standard
 #SBATCH --cpus-per-task=1
-#SBATCH --mail-type=begin,end,fail
-#SBATCH --mail-user=heuser.tassia@gmail.com
+#SBATCH --mail-type=fail
 
-module load python/3.9.13-gpu
+if command -v module >/dev/null 2>&1; then
+    module load "${VOXCELEB_PYTHON_MODULE:-python/3.9.13-gpu}" || true
+fi
 
-pip install tqdm
+cd "${SLURM_SUBMIT_DIR:-$(dirname "$0")/..}"
 
-python3 ./dataprep.py --save_path data --extract
+python3 -m pip install -r requirements.txt
+
+python3 download_data/dataprep.py --save_path data --extract
