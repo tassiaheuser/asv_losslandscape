@@ -14,4 +14,4 @@ tqdm>=4.66
 PyYAML>=6.0
 
 # Optional experiment logging
-wandb>=0.16
+wandb>=0.28.0
