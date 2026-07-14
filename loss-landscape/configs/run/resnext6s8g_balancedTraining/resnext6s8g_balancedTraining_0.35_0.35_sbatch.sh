@@ -7,7 +7,7 @@
 
 #resources:
 
-#SBATCH --ntasks=1 
+#SBATCH --ntasks=1
 
 ##SBATCH --nodes=1
 
@@ -22,10 +22,10 @@
 #SBATCH --gres=gpu:nvidia:1
 #the job can use and see 1 GPUs (4 GPUs are available in total on one node) use SBATCH --gres=gpu:1080ti:1 to explicitly demand a Geforce 1080 Ti GPU. Use SBATCH --gres=gpu:A4000:1 to explicitly demand a RTX A4000 GPU
 
-#SBATCH --error=/home/lenny/slurm_logs/trj-3.5-3.5.%J.err
+#SBATCH --error=slurm_logs/trj-3.5-3.5.%J.err
 # write the error output to job.*jobID*.err
 
-#SBATCH --output=/home/lenny/slurm_logs/trj-3.5-3.5.%J.out
+#SBATCH --output=slurm_logs/trj-3.5-3.5.%J.out
 # write the standard output to job.*jobID*.out
 
 ####
@@ -34,18 +34,20 @@
 # Note: For this script, cifar-10 sfno
 #d) Write your checkpoints to your home directory, so that you still have them if your job fails
 ####
-. /home/lenny/anaconda3/etc/profile.d/conda.sh
-conda activate lola2
-# python plot_surface.py --config /mnt/ssd2/Tassi/TassiMA/loss-landscape/Output/resnext6g/23-05T11-14-20/config_23-05T11-14-20_resumeIncrease_HigherBatch.yml
+if [ -n "${CONDA_EXE:-}" ]; then
+    source "$(dirname "$(dirname "$CONDA_EXE")")/etc/profile.d/conda.sh"
+    conda activate "${LOSS_LANDSCAPE_CONDA_ENV:-lola2}"
+fi
+# python plot_surface.py --config Output/resnext6g/23-05T11-14-20/config_23-05T11-14-20_resumeIncrease_HigherBatch.yml
 
 
-# python plot_surface.py --config /mnt/ssd2/Tassi/TassiMA/loss-landscape/configs/vox2_v2_AAM.yaml
-# python plot_surface.py --config /mnt/ssd2/Tassi/TassiMA/loss-landscape/configs/v2/vox2_v2_Speaker2.yaml
+# python plot_surface.py --config configs/vox2_v2_AAM.yaml
+# python plot_surface.py --config configs/v2/vox2_v2_Speaker2.yaml
 
-# python plot_surface.py --config /mnt/ssd2/Tassi/TassiMA/loss-landscape/configs/resnet.yaml
+# python plot_surface.py --config configs/resnet.yaml
 
-cd /mnt/ssd2/Tassi/TassiMA/loss-landscape
-python /mnt/ssd2/Tassi/TassiMA/loss-landscape/plot_surface.py --config /mnt/ssd2/Tassi/TassiMA/loss-landscape/configs/run/resnext6s8g_balancedTraining/resnext6s8g_balancedTraining_0.35_0.35.yaml
+cd "${SLURM_SUBMIT_DIR:-$(pwd)}"
+python plot_surface.py --config configs/run/resnext6s8g_balancedTraining/resnext6s8g_balancedTraining_0.35_0.35.yaml
 
 
 

@@ -9,16 +9,16 @@ y: '-0.35:0.35:8'
 # y: '-0.3:0.3:7'
 #x: '-0.00001:0.00001:21'
 #y: '-0.00001:0.00001:21'
-model_file: /mnt/ssd2/Tassi/TassiMA/loss-landscape/voxceleb/trained_net/weights_om/Res2NeXt6s8g/Vox1-O/model000000130.model
-dir_type: weights 
+model_file: voxceleb/trained_net/weights_om/Res2NeXt6s8g/Vox1-O/model000000130.model
+dir_type: weights
 xnorm: filter
 xignore: biasbn
 ynorm: filter
 yignore: biasbn
 plot: True
-train_list: /mnt/ssd2/Tassi/TassiMA/Voxceleb_data/SpeakerDataVox2.hdf5
+train_list: data/SpeakerDataVox2.hdf5
 iter_stop: 15
-out_dir: /mnt/ssd2/Tassi/TassiMA/loss-landscape/Output/resnext6s8g_train
+out_dir: Output/resnext6s8g_train
 
 # voxceleb parameters
 trainfunc: aamsoftmax
