@@ -1,6 +1,6 @@
 # Core numerical and plotting stack
 h5py>=3.10
-matplotlib>=3.8
+matplotlib>=3.11.0
 numpy>=1.26
 scikit-learn>=1.4
 scipy>=1.12
