@@ -1,3 +1,0 @@
-[submodule "models/weights/RawNet3"]
-	path = models/weights/RawNet3
-	url = https://huggingface.co/jungjee/RawNet3

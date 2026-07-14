@@ -1,0 +1,79 @@
+name: Quality checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: |
+            loss-landscape/requirements.txt
+            voxceleb/requirements.txt
+      - name: Install validation dependencies
+        run: python -m pip install h5py numpy PyYAML soundfile tqdm
+      - name: Check Python syntax
+        run: python -m compileall -q examples loss-landscape tests voxceleb
+      - name: Smoke-test command-line entry points
+        run: |
+          python examples/toy_loss_landscape.py --help
+          python voxceleb/Create_h5_dataset/create_new_Dataset.py --help
+          python voxceleb/download_data/dataprep.py --help
+      - name: Check YAML and notebook JSON
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import yaml
+
+          yaml_paths = (
+              list(Path(".").rglob("*.yaml"))
+              + list(Path(".").rglob("*.yml"))
+              + [Path("CITATION.cff")]
+          )
+          for path in yaml_paths:
+              yaml.safe_load(path.read_text(encoding="utf-8"))
+          for path in Path(".").rglob("*.ipynb"):
+              notebook = json.loads(path.read_text(encoding="utf-8"))
+              errors = [
+                  output
+                  for cell in notebook.get("cells", [])
+                  for output in cell.get("outputs", [])
+                  if output.get("output_type") == "error"
+              ]
+              if errors:
+                  raise ValueError(f"Notebook contains saved errors: {path}")
+          PY
+      - name: Check shell syntax
+        run: git ls-files -z '*.sh' | xargs -0 -r -n1 bash -n
+      - name: Run tests
+        run: python -m unittest discover -s tests -v
+
+  pytorch-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: constraints/research-environment.txt
+      - name: Install CPU model dependencies
+        run: >-
+          python -m pip install
+          torch==2.4.1 torchaudio==2.4.1
+          --index-url https://download.pytorch.org/whl/cpu
+      - name: Construct and run a speaker model
+        run: python -m unittest tests.test_pytorch_smoke -v

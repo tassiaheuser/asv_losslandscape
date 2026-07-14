@@ -1,0 +1,22 @@
+# Core numerical and plotting stack
+h5py>=3.10
+matplotlib>=3.8
+numpy>=1.26
+scikit-learn>=1.4
+scipy>=1.12
+seaborn>=0.13
+PyYAML>=6.0
+
+# PyTorch stack
+torch>=2.3
+torchaudio>=2.3
+torchvision>=0.28.0
+
+# VoxCeleb/audio utilities
+asteroid-filterbanks>=0.4
+soundfile>=0.12
+
+# Optional runtime integrations used by the scripts
+mpi4py>=3.1
+pptree>=3.1
+wandb>=0.16
