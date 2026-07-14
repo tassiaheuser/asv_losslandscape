@@ -6,11 +6,14 @@
 cifar10/plots/*.png
 cifar10/plots/*.h5
 cifar10/data/
+data/
 cifar10/trained_nets/
 Output/
+slurm_logs/
 vc-subsets/
 baseline_lite_ap.model
-voxceleb/trained_net/
+voxceleb/trained_net/*
+!voxceleb/trained_net/README.md
 resnet_se34l/
 .wandb/
 z_lola-analysis/
@@ -20,3 +23,4 @@ resnet_se34l/
 
 __pycache__/
 stuff/
+.venv/

@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software, please cite it and the relevant upstream works
+  listed in the component documentation.
+type: software
+title: Evaluating ResNet-based Speaker Verification Systems through Loss Landscape Visualization
+version: 1.0.0
+date-released: 2026-07-14
+abstract: >-
+  PyTorch research code for training ResNet-based speaker-verification systems and visualizing
+  their loss landscapes, including HDF5 data preparation, trajectory projection, and plotting.
+keywords:
+  - speaker verification
+  - loss landscape
+  - VoxCeleb
+  - PyTorch
+  - neural networks
+authors:
+  - family-names: Heuser
+    given-names: Tassia
+repository-code: https://github.com/tassiaheuser/asv_losslandscape
+license: MIT

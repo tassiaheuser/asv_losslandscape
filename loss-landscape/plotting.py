@@ -46,7 +46,7 @@ def plot_2d_contour(surf_file, surf_name='train_loss', vmin=0.1, vmax=10, vlevel
         else:
             print ('%s is not found in %s' % (surf_name, detail_surf_file))
             return
-        
+
         # Combine the coordinates and values
         x_pointer_large = 0
         x_pointer_detail = 0
@@ -76,7 +76,7 @@ def plot_2d_contour(surf_file, surf_name='train_loss', vmin=0.1, vmax=10, vlevel
                     new_Z.append(detail_Z[y_pointer_detail, x_pointer_detail])
                     x_pointer_detail += 1
                 y_pointer_detail += 1
-                continue 
+                continue
             elif y[y_pointer_large] == detail_y[y_pointer_detail]:
                 while x_pointer_large < len(x) and x_pointer_detail < len(detail_x):
                     new_y.append(detail_y[y_pointer_detail])
@@ -103,14 +103,14 @@ def plot_2d_contour(surf_file, surf_name='train_loss', vmin=0.1, vmax=10, vlevel
         fig.savefig(os.path.join(out_dir,".".join(surf_file.split(".")[:-1]) + '_' + surf_name + '_3dsurface_triangular.pdf'), dpi=300,
                     bbox_inches='tight', format='pdf')
         return
-        
+
     X, Y = np.meshgrid(x, y)
 
 
             #         new_x.append(detail_x[x_pointer_detail])
             #     y_pointer_large += 1
             #     y_pointer_detail += 1
-            #     y_list = 
+            #     y_list =
             # new_Z.append([])
             # while x_pointer_large < len(x) and x_pointer_detail < len(detail_x):
             #     if x[x_pointer_large] < x[x_pointer_detail]:
@@ -214,11 +214,11 @@ if __name__ == "__main__":
     # Timestamp for logging
     now = datetime.datetime.now()
     args.timestamp = now.strftime("%d-%mT%H-%M-%S")
-    
+
     time_dir = True
     if time_dir:
         args.out_dir = os.path.join(args.out_dir, args.timestamp)
-        
+
     if not os.path.exists(args.out_dir):
         os.makedirs(args.out_dir,exist_ok=True)
 
@@ -229,4 +229,4 @@ if __name__ == "__main__":
 
     print("Plotting complete. Files saved successfully.")
 
-    # python plotting.py --surf_file "/mnt/ssd2/Tassi/TassiMA/loss-landscape/Output/res2net8s/26-05T12-22-55/surface_[-1.0,1.0,21]x[-1.0,1.0,21].h5" --detail_surf_file "/mnt/ssd2/Tassi/TassiMA/loss-landscape/Output/res2net8s/22-05T15-33-44/surface_[-0.1,0.1,21]x[-0.1,0.1,21].h5" --show --out_dir Output/new_figures/test
+    # python plotting.py --surf_file "Output/res2net8s/26-05T12-22-55/surface_[-1.0,1.0,21]x[-1.0,1.0,21].h5" --detail_surf_file "Output/res2net8s/22-05T15-33-44/surface_[-0.1,0.1,21]x[-0.1,0.1,21].h5" --show --out_dir Output/new_figures/test
