@@ -9,7 +9,7 @@ PyYAML>=6.0
 
 # PyTorch stack
 torch>=2.3
-torchaudio>=2.3
+torchaudio>=2.11.0
 torchvision>=0.18
 
 # VoxCeleb/audio utilities
