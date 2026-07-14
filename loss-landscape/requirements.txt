@@ -8,7 +8,7 @@ seaborn>=0.13
 PyYAML>=6.0
 
 # PyTorch stack
-torch>=2.3
+torch>=2.13.0
 torchaudio>=2.3
 torchvision>=0.18
 
