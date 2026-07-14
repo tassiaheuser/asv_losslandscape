@@ -1,0 +1,18 @@
+# Direct dependencies from the environment used for the publication cleanup.
+# Install with: python -m pip install -r <component>/requirements.txt -c constraints/research-environment.txt
+asteroid-filterbanks==0.4.0
+h5py==3.11.0
+matplotlib==3.9.2
+mpi4py==4.0.0
+numpy==2.1.1
+pptree==3.1
+PyYAML==6.0.2
+scikit-learn==1.5.2
+scipy==1.14.1
+seaborn==0.13.2
+soundfile==0.12.1
+torch==2.4.1
+torchaudio==2.4.1
+torchvision==0.19.1
+tqdm==4.67.0
+wandb==0.18.5

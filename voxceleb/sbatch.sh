@@ -7,7 +7,7 @@
 
 #resources:
 
-#SBATCH --ntasks=1 
+#SBATCH --ntasks=1
 
 ##SBATCH --nodes=1
 
@@ -22,10 +22,10 @@
 #SBATCH --gres=gpu:nvidia:1
 #the job can use and see 1 GPUs (4 GPUs are available in total on one node) use SBATCH --gres=gpu:1080ti:1 to explicitly demand a Geforce 1080 Ti GPU. Use SBATCH --gres=gpu:A4000:1 to explicitly demand a RTX A4000 GPU
 
-#SBATCH --error=/home/lenny/slurm_logs/trv2AAM.%J.err
+#SBATCH --error=slurm_logs/trv2AAM.%J.err
 # write the error output to job.*jobID*.err
 
-#SBATCH --output=/home/lenny/slurm_logs/trv2AAM.%J.out
+#SBATCH --output=slurm_logs/trv2AAM.%J.out
 # write the standard output to job.*jobID*.out
 
 ####
@@ -34,16 +34,12 @@
 # Note: For this script, cifar-10 sfno
 #d) Write your checkpoints to your home directory, so that you still have them if your job fails
 ####
-. /home/lenny/anaconda3/etc/profile.d/conda.sh
-conda activate lola2
-cd /mnt/ssd2/Tassi/TassiMA/Voxceleb_original
-# python plot_surface.py --config /mnt/ssd2/Tassi/TassiMA/loss-landscape/Output/resnext6g/23-05T11-14-20/config_23-05T11-14-20_resumeIncrease_HigherBatch.yml
-python trainSpeakerNet.py --config /mnt/ssd2/Tassi/TassiMA/Voxceleb_original/configs/ResNetSE34v2_AAMsoftmax.yml
-
-# python plot_surface.py --config /mnt/ssd2/Tassi/TassiMA/loss-landscape/configs/vox2_v2_AAM.yaml
-# python plot_surface.py --config /mnt/ssd2/Tassi/TassiMA/loss-landscape/configs/v2/vox2_v2_Speaker2.yaml
-
-# python plot_surface.py --config /mnt/ssd2/Tassi/TassiMA/loss-landscape/configs/resnet.yaml
+if [ -n "${CONDA_EXE:-}" ]; then
+    source "$(dirname "$(dirname "$CONDA_EXE")")/etc/profile.d/conda.sh"
+    conda activate "${VOXCELEB_CONDA_ENV:-lola2}"
+fi
+cd "${SLURM_SUBMIT_DIR:-$(pwd)}"
+python trainSpeakerNet.py --config configs/ResNetSE34v2_AAMsoftmax.yml
 
 
 
